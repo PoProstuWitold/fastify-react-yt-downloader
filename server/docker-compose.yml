@@ -1,0 +1,22 @@
+version: '3.8'
+
+services: 
+    mongo:
+        container_name: fastify-mongo-yt-downloader
+        image: mongo:latest
+        ports:
+            - 27017:27017
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: example
+        networks: 
+            - mongodb_net
+        volumes: 
+            - mongodb:/data/db
+
+volumes:
+    mongodb:
+
+networks:
+    mongodb_net:
+        driver: bridge

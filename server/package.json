@@ -1,0 +1,37 @@
+{
+  "name": "fastify-yt-downloader",
+  "version": "1.0.0",
+  "description": "Backend for Youtube Downloader App",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "dev": "ts-node-dev src/index.ts"
+  },
+  "keywords": [
+    "yt",
+    "downloader",
+    "fastify",
+    "youtube",
+    "ytdl"
+  ],
+  "author": "PoProstuWitold",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bull": "^3.15.5",
+    "ts-node": "^10.2.1",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "bull": "^3.29.2",
+    "dotenv": "^10.0.0",
+    "fastify": "^3.22.0",
+    "fastify-cors": "^6.0.2",
+    "fastify-socket.io": "^2.0.1",
+    "fastify-static": "^4.2.3",
+    "mongoose": "^6.0.8",
+    "reflect-metadata": "^0.1.13",
+    "socket.io": "^4.2.0",
+    "ytdl-core": "^4.9.1"
+  }
+}
