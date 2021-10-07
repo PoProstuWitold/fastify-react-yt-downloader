@@ -56,6 +56,22 @@ downloadQueue.process((job, done) => {
             done(error)
             reject(error)
         })
+        .on('data', (data) => {
+            console.log('gowno')
+            console.log(data.length)
+        })
+        .on('drain', () => {
+            //console.log('drain')
+        })
+        .on('open', () => {
+            console.log('open')
+        })
+        .on('pipe', () => {
+            console.log('pipe')
+        })
+        .on('unpipe', () => {
+            console.log('unpipe')
+        })
     })
 })
 

@@ -3,6 +3,16 @@ import { Video } from '../models/video.model'
 import { downloadQueue } from '../queues/download.queue'
 import fs from 'fs/promises'
 
+const downloadVideoOptions: Partial<RouteOptions> = {
+    schema: {
+        body: {
+            type: 'object',
+            required: ['youtubeUrl'],
+            
+        }
+    }
+}
+
 export const downloadRouter = (fastify: FastifyInstance, opts: RouteOptions, done: Function) => {
     fastify.get(
         '/:id', 
@@ -10,19 +20,19 @@ export const downloadRouter = (fastify: FastifyInstance, opts: RouteOptions, don
         async (req: FastifyRequest, rep: FastifyReply) => {
             //@ts-ignore
             const { id } = req.params
-            const video = await Video.findByIdAndDelete(id);
+            const video = await Video.findById(id)
 
             if (!video) {
                 return rep.status(404).send('Video not found')
             }
             const { file } = video
 
-            rep.status(200).download(file)
+            rep.status(204).download(file)
         }
     )
     fastify.post(
         '/',
-        opts,
+        downloadVideoOptions,
         async (req: FastifyRequest, rep: FastifyReply) => {
             try {
                 //@ts-ignore
@@ -51,9 +61,11 @@ export const downloadRouter = (fastify: FastifyInstance, opts: RouteOptions, don
 
             const video = await Video.findByIdAndDelete(id)
 
-            if (video) {
-                await fs.unlink(video.file!)
+            if (!video) {
+                return rep.status(404).send('Video not found')
             }
+            
+            await fs.unlink(video.file!)
 
             rep.status(200).send(video)
         }

@@ -6,8 +6,7 @@ import mongoose from 'mongoose'
 
 const { 
     REDIS_URL,
-    REDIS_PASSWORD,
-    YTDL_NO_UPDATE, 
+    REDIS_PASSWORD, 
     MONGO_DB_URI 
 } = process.env
 
