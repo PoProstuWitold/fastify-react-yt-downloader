@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
 import axios from 'axios'
@@ -25,10 +26,12 @@ const socket = io('http://localhost:3000/')
 const Home: React.FC<HomeProps> = () => {
 
     const [videos, setVideos] = useState([])
+    const [isDownloading, setIsDownloading] = useState<boolean>(false)
 
     useEffect(() => {
         socket.on("VIDEO_DOWNLOADED", (data) => {
             notify(`${data} Downloaded`, { success: true })
+            setIsDownloading(false)
             window.location.reload()
         });
     
@@ -36,6 +39,13 @@ const Home: React.FC<HomeProps> = () => {
           notify(`Download Started ${data}`, { success: true });
         });
     
+        socket.on("VIDEO_DOWNLOADING", () => {
+            if(!isDownloading) {
+                console.log('GOWNO')
+                setIsDownloading(true)
+            }
+        })
+
         axios
             .get('http://localhost:3000/api/downloads')
             .then((res) => {
@@ -82,15 +92,19 @@ const Home: React.FC<HomeProps> = () => {
                 <button type="submit" className="btn btn-primary btn-lg">
                 Download
                 </button>
+                {isDownloading ?
+                    toast.loading('Downloading...', {
+                        duration: 1000000
+                    }) : null
+                }
                 <Toaster />
             </div>
             </form>
         </div>
         <h3>Downloaded videos</h3>
         <div style={{ margin: 10 }} className="row">
-            {videos.map((video) => {
-                console.log(video)
-                return <Videos video={video} />
+            {videos.map((video, index) => {
+                return <Videos video={video} key={index} />
             })}
         </div>
         </div>

@@ -34,7 +34,6 @@ downloadQueue.process((job, done) => {
             console.log('Download complete')
 
             const file = `${process.cwd()}/downloads/${title}.mp4`
-
             const video = new Video({
                 title,
                 file,
@@ -56,15 +55,8 @@ downloadQueue.process((job, done) => {
             done(error)
             reject(error)
         })
-        .on('data', (data) => {
-            console.log('gowno')
-            console.log(data.length)
-        })
-        .on('drain', () => {
-            //console.log('drain')
-        })
         .on('open', () => {
-            console.log('open')
+            app.io.emit(Events.VIDEO_DOWNLOADING)
         })
         .on('pipe', () => {
             console.log('pipe')
