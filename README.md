@@ -52,7 +52,7 @@ yarn
 ## TO DO
 - [x] Fastify server setup
 - [x] Bull download queue
-- [ ] Client app
+- [x] Client app
 
 
 
